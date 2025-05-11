@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pesanan', function (Blueprint $table) {
+        Schema::create('pesanan', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pelanggan_id')      
+                  ->constrained('pelanggan')                
+                  ->onDelete('cascade');
             $table->date('tanggal_pesanan')->nullable();
-            $table->boolean('total_harga_produk')->default(false);
+            $table->decimal('total_harga_produk', 12, 2);
             $table->string('status')->default('diproses');
-            $table->boolean('rating')->default(false);
+            $table->decimal('rating', 2, 1)->nullable();
             $table->text('ulasan')->nullable();
         });
     }
@@ -23,11 +27,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    
     public function down(): void
     {
-        Schema::table('pesanan', function (Blueprint $table) {
-            $table->dropColumn(['status', 'alamat_pengiriman', 'tanggal_pengiriman', 'dibayar']);
-        });
+        Schema::dropIfExists('pesanan');
     }
 };
