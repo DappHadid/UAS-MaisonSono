@@ -4,7 +4,7 @@
         <!-- Left Side -->
         <div class="d-flex align-items-center">
             <a class="nav-link text-white me-3" href="#">Discover</a>
-            <a class="nav-link text-white me-3" href="#">Shop</a>
+            <a class="nav-link text-white me-3" href="{{ route('shop') }}">Shop</a>
             <a class="nav-link text-white" href="#">Catalogue</a>
         </div>
 
