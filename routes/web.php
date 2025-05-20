@@ -10,10 +10,11 @@ Route::get('/', [ProductController::class, 'view'])->name('product.view');
 Route::post('/', [ProductController::class, 'create'])->name('product.create');
 
 Route::get('/', function () {
-    return view('auth.login');
+
+    return view('landing');
 });
-
-Auth::routes(['verify' => true]);
-
-Route::get('/home', [HomeController::class, 'index'])->middleware('verified');
+//shop
+Route::get('/shop', function () {
+    return view('shop');
+})->name('shop');
 

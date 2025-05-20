@@ -1,18 +1,40 @@
-<div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Maison Sono</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#products">Product</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#testimonials">Testimoni</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
-            </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #1f2f23; position: relative;">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+
+        <!-- Left Side -->
+        <div class="d-flex align-items-center">
+            <a class="nav-link text-white me-3" href="#">Discover</a>
+            <a class="nav-link text-white me-3" href="{{ route('shop') }}">Shop</a>
+            <a class="nav-link text-white" href="#">Catalogue</a>
         </div>
-    </nav>
-</div>
+
+        <!-- Logo -->
+        <a class="navbar-brand position-absolute top-50 start-50 translate-middle text-white text-center" href="#" style="font-weight: bold;">
+            <small style="font-size: 10px;">MAISON</small><br />
+            <span style="font-size: 24px;">SONO</span>
+        </a>
+
+        <!-- Right Side -->
+        <div class="d-flex align-items-center">
+            <ul class="navbar-nav d-flex flex-row align-items-center mb-0">
+                <li class="nav-item me-3">
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-search"></i>
+                    </a>
+                </li>
+                <li class="nav-item me-3">
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-person"></i>
+                    </a>
+                </li>
+                <li class="nav-item me-3">
+                    <a href="#" class="nav-link position-relative text-white">
+                        <i class="bi bi-bag"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
