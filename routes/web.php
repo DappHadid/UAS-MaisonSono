@@ -5,11 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
-    return view('auth.login');
+
+    return view('landing');
 });
 
-Auth::routes(['verify' => true]);
-
-Route::get('/home', [HomeController::class, 'index'])->middleware('verified');
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/shop', function () {
+    return view('shop');
+})->name('shop');
