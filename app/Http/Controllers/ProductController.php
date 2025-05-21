@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Produk;
 
 class ProductController extends Controller
 {
     public function view()
     {
-        $produk = Product::all();
+        $produk = Produk::all();
         return view('dashboard', ['produk' => $produk]);
     }
 
@@ -29,7 +30,7 @@ class ProductController extends Controller
             $data['gambar'] = $path;
         }
 
-        $newProduct = Product::create($data);
+        $newProduct = Produk::create($data);
 
         return redirect(route('produk.view'));
     }
