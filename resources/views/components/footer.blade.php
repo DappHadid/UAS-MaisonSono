@@ -36,7 +36,7 @@
                     <h5 class="fw-bold border-bottom border-light pb-1">Company</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white text-decoration-none">About</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Career</a></li>
+                        <li><a href="{{ route('career') }}" class="text-white text-decoration-none" >Career</a></li>
                     </ul>
                 </div>
             </div>
@@ -49,7 +49,7 @@
     </div>
 
     {{-- WhatsApp Floating Icon --}}
-    <a href="https://wa.me/6281234567890" target="_blank" style="position: absolute; bottom: 20px; right: 20px;">
+    <a href="https://wa.me/6281285676030" target="_blank" style="position: absolute; bottom: 20px; right: 20px;">
         <img src="{{ asset('images/wa.png') }}" alt="WhatsApp" width="50">
     </a>
 </footer>
