@@ -1,14 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SalesAnalyticsController;
 
 // 🔹 Landing page
 Route::get('/', function () {
-    return view('landing'); // resources/views/landing.blade.php
+    return view('landing');
 })->name('landing');
 
 // 🔹 Auth routes (login, register, dll)
@@ -16,8 +17,8 @@ Auth::routes();
 
 // 🔹 Dashboard (Setelah login)
 Route::get('/dashboard', [HomeController::class, 'index'])
-    ->name('dashboard')
-    ->middleware('auth');
+->name('dashboard')
+->middleware('auth');
 
 // 🔹 Shop page
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -27,6 +28,9 @@ Route::prefix('products')->middleware('auth')->group(function () {
     Route::get('/', [ProductController::class, 'view'])->name('product.view');
     Route::post('/', [ProductController::class, 'create'])->name('product.create');
 });
+
+// 🔹 Analytic Routes
+Route::get('/analytics/sales', [SalesAnalyticsController::class, 'index'])->name('analytics.sales');
 
 // 🔹 Home jika ingin route /home diarahkan juga
 Route::get('/home', function () {

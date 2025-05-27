@@ -127,6 +127,7 @@ body {
 @endsection
 
 @section('content')
+    <x-navbar />
 <div class="login-container">
     <div class="login-card">
         <div class="login-image"></div>
