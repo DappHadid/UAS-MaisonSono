@@ -6,8 +6,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 
 //products
-Route::get('/', [ProductController::class, 'view'])->name('product.view');
-Route::post('/', [ProductController::class, 'create'])->name('product.create');
+Route::get('/product', [ProductController::class, 'view'])->name('product.view');
+Route::post('/product', [ProductController::class, 'create'])->name('product.create');
+Route::delete('/product/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+Route::put('/product/{id}', [ProductController::class, 'edit'])->name('product.edit');
 
 Route::get('/', function () {
 
@@ -30,6 +32,9 @@ Route::get('/dashboard', function () {
 //     return view('orders');
 // })->name('orders');
 
-Route::get('/product', function () {
-    return view('product');
-})->name('product');
+// Route::get('/product', function () {
+//     return view('product');
+// })->name('product');
+
+// Route::resource('product', ProductController::class);
+// Route::get('/product', [ProductController::class, 'view'])->name('product.view');

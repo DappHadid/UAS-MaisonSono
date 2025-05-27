@@ -4,10 +4,12 @@
     <div class="d-flex">
         <x-sidebar />
         <div>
-            <header class="text-center py-5">
+            <header class="text py-5">
                 <div class="container">
-                    <h1>Our Products</h1>
-                    <p class="lead">Explore our collection of Maison Sono Perfumes — elegant, compact, and uniquely crafted fragrances.</p>
+                    <h1>Products</h1>
+                    <a href="{{ route('product.create') }}" class="btn btn-success">Add Products</a>
+                    <a href="" class="btn btn-outline-primary">Import</a>
+                    <a href="" class="btn btn-outline-danger">Export</a>
                 </div>
             </header>
 
@@ -16,64 +18,44 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">PRODUCT-ID</th>
-                                <th scope="col">NAME</th>
-                                <th scope="col">TYPE</th>
+                                <th scope="col">PRODUCT</th>
+                                <th scope="col">DESCRIPTION</th>
                                 <th scope="col">SIZE</th>
                                 <th scope="col">PRICE</th>
+                                <th scope="col">DISC</th>
+                                <th scope="col">IMAGE</th>
                                 <th scope="col">STOCK</th>
                                 <th scope="col">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">P01</th>
-                                <td>Parfum Paling Wangi</td>
-                                <td>Floral</td>
-                                <td>30ml</td>
-                                <td>Rp.75.000</td>
-                                <td>50</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">P02</th>
-                                <td>Parfum Tahan Lama</td>
-                                <td>Woody</td>
-                                <td>50ml</td>
-                                <td>Rp.110.000</td>
-                                <td>30</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">P03</th>
-                                <td>Parfum Travel Size</td>
-                                <td>Citrus</td>
-                                <td>10ml</td>
-                                <td>Rp.25.000</td>
-                                <td>100</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">P04</th>
-                                <td>Parfum Gentong Size</td>
-                                <td>Musk</td>
-                                <td>500ml</td>
-                                <td>Rp.500.000</td>
-                                <td>10</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Edit</button>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </td>
-                            </tr>
+                            @foreach ($produk as $product)
+                                <tr>
+                                    {{-- <th scope="row">{{ $product->id }}</th> --}}
+                                    <td>{{ $product->nama_produk }}</td>
+                                    <td>{{ $product->deskripsi }}</td>
+                                    <td>{{ $product->size }}</td>
+                                    <td>Rp.{{ number_format($product->harga, 0, ',', '.') }}</td>
+                                    <td>{{ $product->diskon }}</td>
+                                    <td>{{ $product->gambar }}</td>
+                                    <td>{{ $product->stok }}</td>
+                                    <td>
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('product.edit', $product->id) }}"
+                                            class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+
+                                        <!-- Tombol Hapus -->
+                                        <form action="{{ route('product.destroy', $product->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                                @endforeach
+                                
                         </tbody>
                     </table>
                 </div>

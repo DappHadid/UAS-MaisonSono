@@ -13,7 +13,7 @@
             </li>
             <li>
                 <a href="#" class="nav-link text-white">
-                    <i class="bi bi-graph-up me-2"></i> Analitics
+                    <i class="bi bi-graph-up me-2"></i> Analytics
                 </a>
             </li>
             <li>
@@ -22,8 +22,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('product') }}"
-                    class="nav-link text-white {{ request()->routeIs('product') ? 'bg-secondary fw-bold ' : '' }}">
+                <a href="{{ route('product.view') }}"
+                    class="nav-link text-white {{ request()->routeIs('product.view') ? 'bg-secondary fw-bold ' : '' }}">
                     <i class="bi bi-box-seam me-2"></i> Products
                 </a>
             </li>
