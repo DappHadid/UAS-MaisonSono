@@ -18,3 +18,18 @@ Route::get('/shop', function () {
     return view('shop');
 })->name('shop');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+// Route::get('/analytics', function () {
+//     return view('analytics');
+// })->name('analytics');
+
+// Route::get('/orders', function () {
+//     return view('orders');
+// })->name('orders');
+
+Route::get('/product', function () {
+    return view('product');
+})->name('product');

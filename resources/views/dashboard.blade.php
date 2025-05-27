@@ -6,12 +6,9 @@
         <div>
             {{-- <x-navbar /> --}}
             <!-- hero section -->
-            <header class="text-center py-5">
+            <header class="py-5">
                 <div class="container">
-                    <h1>Maison Sono Perfume</h1>
-                    <p class="lead">Dive into a world of travel perfumes,
-                        A perfume that’s both a fragrance and a statement piece.
-                        Perfectly designed to be both a decoration and an on-the-go essential</p>
+                    <h1><strong>DASHBOARD</strong></h1>
                 </div>
             </header>
 
