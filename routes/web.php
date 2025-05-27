@@ -22,6 +22,8 @@ Route::get('/dashboard', [HomeController::class, 'index'])
 
 // 🔹 Shop page
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::view('/catalogue', 'catalogue')->name('catalogue');
+Route::view('/career', 'career')->name('career5');
 
 // 🔹 Product Routes
 Route::prefix('products')->middleware('auth')->group(function () {

@@ -26,9 +26,9 @@
             style="background: url('{{ asset('images/bg1.png') }}') no-repeat center center / cover;">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 mb-4">
+                    <div class="col-lg-12 mb-4">
                         <h1 class="display-1 fw-bold text-white">WHAT<br>MEMORY<br>SMELLS LIKE</h1>
-                        <p class="text-white mt-4 text-break lh-lg" style="max-width: 600px;">
+                        <p class="text-white mt-4 text-break lh-lg">
                             No, darling, I’m not in the mood for those sugary florals or citrus bursts... I used to
                             likethem, sure, when I didn’t know better.
                             But today, give me the usual—Maison Sono, the one with the midnight bottle...
@@ -61,7 +61,7 @@
                     </style>
 
                     {{-- Card 1 --}}
-                    <div class="card border-0 shadow" style="min-width: 360px; height: 480px;">
+                    <div class="card border-0 shadow" style="min-width: 360px; height: 480px; border-radius: 2rem;">
                         <img src="{{ asset('images/story1.png') }}" class="card-img-top h-100 object-fit-cover"
                             alt="...">
                     </div>
@@ -77,7 +77,7 @@
                     </div>
 
                     {{-- Card 3 --}}
-                    <div class="card border-15 shadow" style="min-width: 360px; height: 480px;">
+                    <div class="card border-15 shadow" style="min-width: 360px; height: 480px; border-radius: 2rem;">
                         <img src="{{ asset('images/story2.png') }}" class="card-img-top h-100 object-fit-cover"
                             alt="...">
                     </div>
@@ -93,7 +93,7 @@
                     </div>
 
                     {{-- Card 5 --}}
-                    <div class="card border-0 shadow" style="min-width: 360px; height: 480px;">
+                    <div class="card border-0 shadow" style="min-width: 360px; height: 480px; border-radius: 2rem;">
                         <img src="{{ asset('images/story3.png') }}" class="card-img-top h-100 object-fit-cover"
                             alt="...">
                     </div>
@@ -114,36 +114,43 @@
         <!-- Section 1: Popular Smels -->
         <section class="py-5" style="background: url('/images/bg1.png') no-repeat center center / cover;">
             <div class="container">
-                <h2 class="text-center fw-bold text-white mb-4">POPULAR SMELS</h2>
+                <h1 class="text-center fw-bold text-white mb-4">POPULAR SMELS</h1>
                 <div class="row g-4 justify-content-center">
                     <div class="col-md-3">
-                        <div class="card">
+                        <div class="card h-100" style="height: 420px;">
                             <img src="/images/product1.png" class="card-img-top" alt="Product 1"
                                 style="height: 200px; object-fit: cover;">
-                            <div class="card-body text-center">
-                                <p class="fw-bold">Rp. 59.000</p>
-                                <p class="mb-0">Maison 1000 Parfums – Travel Size – Parfum Wanita – WhiteFlower Elixir</p>
+                            <div class="card-body text-center d-flex flex-column justify-content-between">
+                                <div>
+                                    <p class="fw-bold mb-2">Rp. 59.000</p>
+                                    <p class="mb-0">Maison 1000 Parfums – Travel Size – Parfum Wanita – WhiteFlower Elixir
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card">
+                        <div class="card h-100" style="height: 420px;">
                             <img src="/images/product2.png" class="card-img-top" alt="Product 2"
                                 style="height: 200px; object-fit: cover;">
-                            <div class="card-body text-center">
-                                <p class="fw-bold">Rp. 336.000</p>
-                                <p class="mb-0">Travel Bundling – Discovery Set</p>
+                            <div class="card-body text-center d-flex flex-column justify-content-between">
+                                <div>
+                                    <p class="fw-bold mb-2">Rp. 336.000</p>
+                                    <p class="mb-0">Travel Bundling – Discovery Set</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card">
+                        <div class="card h-100" style="height: 420px;">
                             <img src="/images/product3.png" class="card-img-top" alt="Product 3"
                                 style="height: 200px; object-fit: cover;">
-                            <div class="card-body text-center">
-                                <p class="fw-bold">Rp. 69.000</p>
-                                <p class="mb-0">Capsule Scent 5000 Travel Size Perfume Unisex – Parfum Modern – Travel
-                                    Collection</p>
+                            <div class="card-body text-center d-flex flex-column justify-content-between">
+                                <div>
+                                    <p class="fw-bold mb-2">Rp. 69.000</p>
+                                    <p class="mb-0">Capsule Scent 5000 Travel Size Perfume Unisex – Parfum Modern – Travel
+                                        Collection</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,13 +174,12 @@
 
                     <!-- Kanan: Google Maps Embed -->
                     <div class="col-lg-6">
-                        <div class="ratio ratio-4x3">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253686.56925004224!2d106.66470108330058!3d-6.229386698166084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1571f2d48ef%3A0x301576d14feb9d0!2sJakarta!5e0!3m2!1sen!2sid!4v1715600000000!5m2!1sen!2sid"
-                                width="600" height="450" style="border:0; border-radius: 20px;" allowfullscreen=""
-                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div class="ratio ratio-4x3 position-relative">
+                            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PQauJzrXVQZglLebZKM3K2hftxy7C2k&ehbc=2E312F" width="640" height="480"></iframe>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -195,7 +201,7 @@
                             </div>
                             <p class="text-muted small mb-0">Dior Sausage</p>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
