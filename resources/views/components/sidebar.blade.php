@@ -1,46 +1,49 @@
-<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background-color: #3F4F44">
     <div class="d-flex flex-column align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class="fs-4">My Sidebar</span>
+            <span class="fs-4 text-white">MAISON SONO</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-sm-start" id="menu">
             <li class="nav-item">
                 <a href="#" class="nav-link text-white">
-                    <i class="bi bi-house-door me-2"></i> Home
+                    <i class="bi bi-house-door me-2"></i> Dashboard
                 </a>
             </li>
             <li>
                 <a href="#" class="nav-link text-white">
-                    <i class="bi bi-person me-2"></i> Profile
+                    <i class="bi bi-gear me-2"></i> Analitics
                 </a>
             </li>
             <li>
                 <a href="#" class="nav-link text-white">
-                    <i class="bi bi-gear me-2"></i> Settings
+                    <i class="bi bi-person me-2"></i> Orders
                 </a>
             </li>
             <li>
                 <a href="#" class="nav-link text-white">
-                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                    <i class="bi bi-gear me-2"></i> Products
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link text-white">
+                    <i class="bi bi-gear me-2"></i> Customers
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link text-white">
+                    <i class="bi bi-gear me-2"></i> Incomes
                 </a>
             </li>
         </ul>
         <hr>
         <div class="dropdown pb-4">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                data-bs-toggle="dropdown">
-                <img src="https://via.placeholder.com/30" alt="avatar" class="rounded-circle me-2">
-                <strong>User</strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
-        </div>
+                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                        Logout
+                    </a>
+                    <ul class="dropdown-menu bg-danger text-small shadow">
+                        <li><a class="dropdown-item text-white" href="#">Are you sure want to logout?</a></li>
+                    </ul>
+                    </div>
     </div>
 </div>
