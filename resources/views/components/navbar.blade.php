@@ -23,11 +23,49 @@
                         <i class="bi bi-search"></i>
                     </a>
                 </li>
-                <li class="nav-item me-3">
-                    <a href="#" class="nav-link text-white">
+                <!-- Icon Login Register -->
+                <li class="nav-item dropdown me-3">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" v-pre>
                         <i class="bi bi-person"></i>
                     </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        @guest
+                            @if (Route::has('login'))
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('login') }}">
+                                        {{ __('Login') }}
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('register') }}">
+                                        {{ __('Register') }}
+                                    </a>
+                                </li>
+                            @endif
+                        @else
+                            <li>
+                                <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">
+                                    {{ Auth::user()->name }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                            </li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        @endguest
+                    </ul>
                 </li>
+
                 <li class="nav-item me-3">
                     <a href="#" class="nav-link position-relative text-white">
                         <i class="bi bi-bag"></i>
