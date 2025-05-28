@@ -26,6 +26,7 @@ Route::view('/catalogue', 'catalogue')->name('catalogue');
 Route::view('/discover', 'discover')->name('discover');
 Route::view('/keranjang', 'keranjang')->name('keranjang');
 Route::view('/about', 'about')->name('about');
+Route::view('/career', 'career')->name('career');
 
 // 🔹 Product Routes
 Route::prefix('products')->middleware('auth')->group(function () {
@@ -33,8 +34,6 @@ Route::prefix('products')->middleware('auth')->group(function () {
     Route::post('/', [ProductController::class, 'create'])->name('product.create');
 });
 
-// 🔹 Analytic Routes
-Route::get('/analytics/sales', [SalesAnalyticsController::class, 'index'])->name('analytics.sales');
 
 // 🔹 Home jika ingin route /home diarahkan juga
 Route::get('/home', function () {
