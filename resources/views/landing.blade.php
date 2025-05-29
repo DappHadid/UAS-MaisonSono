@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-<head>
-
-</head>
-
 <body>
     @section('content')
         <x-navbar />
@@ -12,9 +8,10 @@
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner vh-100">
                 <div class="carousel-item active position-relative">
-                    <img src="{{ asset('images/banner1.png') }}" class="d-block w-100 vh-100 object-fit-cover" alt="...">
+                    <img src="{{ asset('images/crs2.jpg') }}" class="d-block w-100 vh-100 object-fit-cover" alt="...">
                     <div class="position-absolute top-50 start-50 translate-middle text-center text-white maison-title">
-                        <h1 class="display-1 fw-bold">MAISON SONO</h1>
+                        <img id="carousel-big-logo" src="{{ asset('images/Sono_white.png') }}" style="width: 700px;"
+                            height="auto" alt="Logo Maison Sono">
                     </div>
                 </div>
             </div>
@@ -22,7 +19,7 @@
         {{-- end corousel --}}
 
         {{-- Memory Section --}}
-        <section class="bg-success-subtle py-5"
+        <section id="memory-section" class="bg-success-subtle py-5"
             style="background: url('{{ asset('images/bg1.png') }}') no-repeat center center / cover;">
             <div class="container">
                 <div class="row">
@@ -49,11 +46,12 @@
             <div class="container">
                 {{-- Judul Our Story --}}
                 <div class="mb-5 text-center">
-                    <h2 class="display-5 fw-bold text-white">OUR STORY</h2>
+                    <h2 class="display-5 fw-bold text-white">EVERY SCENT TELLS A STORY</h2>
                 </div>
 
                 {{-- Horizontal scrollable card list --}}
-                <div class="d-flex overflow-x-auto gap-4 pb-3" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <div id="storyScroll" class="d-flex overflow-x-auto gap-4 pb-3"
+                    style="scrollbar-width: none; -ms-overflow-style: none;">
                     <style>
                         .d-flex::-webkit-scrollbar {
                             display: none;
@@ -62,12 +60,13 @@
 
                     {{-- Card 1 --}}
                     <div class="card border-0 shadow" style="min-width: 360px; height: 480px; border-radius: 2rem;">
-                        <img src="{{ asset('images/story1.png') }}" class="card-img-top h-100 object-fit-cover"
-                            alt="...">
+                        <img src="{{ asset('images/Fs_Walking The Aisle.jpg') }}"
+                            class="card-img-top h-100 object-fit-cover" alt="...">
                     </div>
 
                     {{-- Card 2 --}}
-                    <div class="card bg-success text-white rounded-4 p-4" style="min-width: 360px; height: 480px;">
+                    <div class="card text-white rounded-4 p-4"
+                        style="min-width: 360px; height: 480px; background-color: #254331;">
                         <p class="mb-3">
                             Fragrance has the incredible power to evoke memories, boost moods, and make us feel a
                             certain way—instantly. When choosing perfume, not just picking a scent, it’s choosing a
@@ -78,12 +77,13 @@
 
                     {{-- Card 3 --}}
                     <div class="card border-15 shadow" style="min-width: 360px; height: 480px; border-radius: 2rem;">
-                        <img src="{{ asset('images/story2.png') }}" class="card-img-top h-100 object-fit-cover"
-                            alt="...">
+                        <img src="{{ asset('images/FS_Island In The Sun.jpeg') }}"
+                            class="card-img-top h-100 object-fit-cover" alt="...">
                     </div>
 
                     {{-- Card 4 --}}
-                    <div class="card bg-success text-white rounded-4 p-4" style="min-width: 360px; height: 480px;">
+                    <div class="card  text-white rounded-4 p-4"
+                        style="min-width: 360px; height: 480px; background-color: #2e6745;">
                         <p class="mb-3">
                             A fragrance isn’t just something you wear—it’s a memory, a feeling, a story. One spritz can
                             transport you to a rainy afternoon, a blooming garden, or even a moment of love and
@@ -94,17 +94,18 @@
 
                     {{-- Card 5 --}}
                     <div class="card border-0 shadow" style="min-width: 360px; height: 480px; border-radius: 2rem;">
-                        <img src="{{ asset('images/story3.png') }}" class="card-img-top h-100 object-fit-cover"
-                            alt="...">
+                        <img src="{{ asset('images/FS_Sleep On The Floor.jpg') }}"
+                            class="card-img-top h-100 object-fit-cover" alt="...">
                     </div>
 
                     {{-- Card 6 --}}
-                    <div class="card bg-success text-white rounded-4 p-4" style="min-width: 360px; height: 480px;">
+                    <div class="card text-white rounded-4 p-4"
+                        style="min-width: 360px; height: 480px; background-color: #417d59;">
                         <p class="mb-3">
                             They say scents linger longer than memories. This one? This one *stayed* — like pages of a book
                             that never closes. A walk through time and dusk.
                         </p>
-                        <strong>Midnight Library — Maison Sono</strong>
+                        <strong>Sleep On The Floor — Maison Sono</strong>
                     </div>
 
                 </div>
@@ -118,7 +119,7 @@
                 <div class="row g-4 justify-content-center">
                     <div class="col-md-3">
                         <div class="card h-100" style="height: 420px;">
-                            <img src="/images/product1.png" class="card-img-top" alt="Product 1"
+                            <img src="/images/La Roslyn.jpeg" class="card-img-top" alt="Product 1"
                                 style="height: 200px; object-fit: cover;">
                             <div class="card-body text-center d-flex flex-column justify-content-between">
                                 <div>
@@ -131,7 +132,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card h-100" style="height: 420px;">
-                            <img src="/images/product2.png" class="card-img-top" alt="Product 2"
+                            <img src="/images/La Roslyn.jpeg" class="card-img-top" alt="Product 2"
                                 style="height: 200px; object-fit: cover;">
                             <div class="card-body text-center d-flex flex-column justify-content-between">
                                 <div>
@@ -143,7 +144,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card h-100" style="height: 420px;">
-                            <img src="/images/product3.png" class="card-img-top" alt="Product 3"
+                            <img src="/images/La Roslyn.jpeg" class="card-img-top" alt="Product 3"
                                 style="height: 200px; object-fit: cover;">
                             <div class="card-body text-center d-flex flex-column justify-content-between">
                                 <div>
@@ -159,7 +160,7 @@
         </section>
 
         <!-- Section 2: Partner Cafe Info (FIXED) -->
-        <section class="py-5 bg-white">
+        <section class="py-5">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 mb-4 mb-lg-0">
@@ -169,20 +170,21 @@
                             <h3 class="fw-bold">TRUST YOUR TASTE.</h3>
                             <h3 class="fw-bold">VISIT ONE OF OUR PARTNER CAFE</h3>
                             <a href="#" class="text-dark fw-bold">Where to find us? →</a>
+                            </div>
                         </div>
-                    </div>
-
                     <!-- Kanan: Google Maps Embed -->
+
                     <div class="col-lg-6">
                         <div class="ratio ratio-4x3 position-relative">
-                            <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PQauJzrXVQZglLebZKM3K2hftxy7C2k&ehbc=2E312F" width="640" height="480"></iframe>
-
+                            <iframe
+                                src="https://www.google.com/maps/d/u/0/embed?mid=1PQauJzrXVQZglLebZKM3K2hftxy7C2k&ehbc=2E312F"
+                                width="640" height="480"></iframe>
+                            </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-        </section>
+            </section>
+        {{-- end --}}
 
         <!-- Section 3: Customer Feedback with stack effect -->
         <section class="py-5 text-white" style="background: url('/images/bg1.png') no-repeat center center / cover;">
@@ -211,5 +213,24 @@
         <x-footer />
     @endsection
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const scrollContainer = document.getElementById('storyScroll');
+            let scrollSpeed = 1;
+
+            function autoScroll() {
+                scrollContainer.scrollLeft += scrollSpeed;
+
+                // Loop kembali ke awal jika sudah sampai akhir
+                if (scrollContainer.scrollLeft + scrollContainer.offsetWidth >= scrollContainer.scrollWidth) {
+                    scrollContainer.scrollLeft = 0;
+                }
+
+                requestAnimationFrame(autoScroll);
+            }
+
+            autoScroll();
+        });
+    </script>
 
 </body>

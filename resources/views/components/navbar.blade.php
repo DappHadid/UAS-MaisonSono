@@ -1,18 +1,20 @@
 
+
 <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #1f2f23; position: relative;">
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
         <!-- Left Side -->
         <div class="d-flex align-items-center">
-            <a class="nav-link text-white me-3" href="{{ route('discover') }}">Discover</a>
+            <a class="nav-link text-white me-3" href="{{ route('landing') }}">Home</a>
             <a class="nav-link text-white me-3" href="{{ route('shop') }}">Shop</a>
             <a class="nav-link text-white" href="{{ route('catalogue') }}">Catalogue</a>
         </div>
 
         <!-- Logo -->
-        <a class="navbar-brand position-absolute top-50 start-50 translate-middle text-white text-center" href="{{ route('landing') }}" style="font-weight: bold;">
-            <small style="font-size: 10px;">MAISON</small><br />
-            <span style="font-size: 24px;">SONO</span>
+        <a id="navbar-logo-link" class="navbar-brand position-absolute top-50 start-50 translate-middle text-center"
+            href="{{ route('landing') }}" style="font-weight: bold;">
+            <img id="navbar-main-logo" src="{{ asset('images/Sono_white.png') }}" style="width: 100px; height: auto;"
+                alt="Logo Maison Sono">
         </a>
 
         <!-- Right Side -->
@@ -25,7 +27,8 @@
                 </li>
                 <!-- Icon Login Register -->
                 <li class="nav-item dropdown me-3">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" v-pre>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false" v-pre>
                         <i class="bi bi-person"></i>
                     </a>
 
@@ -54,7 +57,7 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
+                                    onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
@@ -76,3 +79,6 @@
 
     </div>
 </nav>
+
+
+
