@@ -35,7 +35,7 @@
                 <div class="mb-4">
                     <h5 class="fw-bold border-bottom border-light pb-1">Company</h5>
                     <ul class="list-unstyled">
-                        <li><a href="{{ route('about') }}" class="text-white text-decoration-none">About</a></li>
+                        <li><a href="{{ route('about') }}" class="text-white text-decoration-none">About Us</a></li>
                     </ul>
                 </div>
             </div>
