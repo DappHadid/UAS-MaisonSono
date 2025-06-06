@@ -3,24 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Alamat extends Model
 {
-    protected $table = 'alamat';
-
+    use HasFactory;
     protected $fillable = [
         'alamat',
         'kota',
         'provinsi',
         'kode_pos',
-        'patokan',
+        'catatan',
+        'pelanggans_id',
     ];
 
-    public $timestamps = false;
-
-    // Relasi ke Pelanggan
-    public function pelanggan()
+        // Relasi ke Pelanggan
+        public function pelanggans()
     {
-        return $this->hasMany(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class, 'pelanggans_id');
     }
 }

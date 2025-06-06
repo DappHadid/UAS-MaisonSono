@@ -1,40 +1,34 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ShopController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SalesAnalyticsController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\DashboardController;
 
-// 🔹 Landing page
-Route::get('/', function () {
-    return view('landing');
-})->name('landing');
+// ===================================================
+// GRUP UNTUK SEMUA RUTE PANEL ADMIN
+// ===================================================
+Route::prefix('admin')->name('admin.')->group(function () {
 
-// 🔹 Auth routes (login, register, dll)
-Auth::routes();
+    // Rute untuk admin yang belum login (Tamu)
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    });
 
-// 🔹 Dashboard (Setelah login)
-Route::get('/dashboard', [HomeController::class, 'index'])
-->name('dashboard')
-->middleware('auth');
+    // Rute untuk admin yang sudah login
+    Route::middleware('auth:admin')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::middleware('can:manage_products')->group(function () {
+            Route::resource('manage-products', ProdukController::class);
+        });
+    Route::middleware('can:manage_orders')->group(function () {
+        Route::resource('manage-orders', PesananController::class);
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::patch('manage-orders/{pesanan}/update-status', [PesananController::class, 'updateStatus'])
+                ->name('manage-orders.updateStatus');
+        });
+    });
 
-// 🔹 Shop page
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::view('/catalogue', 'catalogue')->name('catalogue');
-Route::view('/career', 'career')->name('career5');
-
-// 🔹 Product Routes
-Route::prefix('products')->middleware('auth')->group(function () {
-    Route::get('/', [ProductController::class, 'view'])->name('product.view');
-    Route::post('/', [ProductController::class, 'create'])->name('product.create');
-});
-
-// 🔹 Analytic Routes
-Route::get('/analytics/sales', [SalesAnalyticsController::class, 'index'])->name('analytics.sales');
-
-// 🔹 Home jika ingin route /home diarahkan juga
-Route::get('/home', function () {
-    return view('home'); // resources/views/home.blade.php
-})->name('home');
+    });

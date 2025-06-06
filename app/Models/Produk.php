@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Produk extends Model
 {
-    protected $table = 'produk';
-    protected $fillable = [
+    use HasFactory;
+    protected $table = 'produks';
+        protected $fillable = [
+
         'nama_produk',
         'deskripsi',
         'size',
@@ -18,12 +20,14 @@ class Produk extends Model
         'stok',
     ];
 
-    public $timestamps = false;
-
-    // Relasi ke Pesanan jika kamu punya tabel pivot (misalnya pesanan_produk)
-    public function pesanan()
+    public function keranjangs()
     {
-        return $this->belongsToMany(Pesanan::class, 'pesanan_produk', 'produk_id', 'pesanan_id')
-                    ->withPivot('jumlah', 'harga_saat_pesan');
+        return $this->hasMany(Keranjang::class, 'produks_id');
     }
+
+    public function detailPesanans()
+    {
+        return $this->hasMany(DetailPesanan::class, 'produks_id');
+    }
+
 }

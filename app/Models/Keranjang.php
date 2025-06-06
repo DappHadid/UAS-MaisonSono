@@ -3,28 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Keranjang extends Model
 {
-    protected $table = 'keranjang';
-
+    use HasFactory;
     protected $fillable = [
-        'pelanggan_id',
-        'produk_id',
         'kuantitas',
+        'pelanggans_id',
+        'produks_id',
     ];
 
-    public $timestamps = false;
-
-    // Relasi ke Pelanggan
-    public function pelanggan()
-    {
-        return $this->belongsTo(Pelanggan::class);
-    }
-
-    // Relasi ke Produk
     public function produk()
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Produk::class, 'produks_id');
+    }
+    
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'pelanggans_id');
     }
 }
