@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         // Hitung total data
         $totalPesanan = Pesanan::count();
-        $totalProduk = Produk::count();
+        $totalPendapatan = Pesanan::where('status', 'selesai')->sum('total_harga_produk');
         $totalPelanggan = Pelanggan::count();
 
         $pesananPerBulan = Pesanan::selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
@@ -56,7 +56,7 @@ class DashboardController extends Controller
 
         // Kirim data ke view dengan path sesuai lokasi file blade Anda
         return view('admin.manage-orders.dashboard', compact(
-            'totalPesanan', 'totalProduk', 'totalPelanggan',
+            'totalPesanan', 'totalPendapatan', 'totalPelanggan',
             'pesananPerBulan', 'statusPesananData', 'statusLabels',
             'trenPenjualanHarian', 'tanggalLabels'
         ));

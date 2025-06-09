@@ -18,16 +18,25 @@ class Pesanan extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'tanggal_pesanan' => 'datetime',
+    ];
+
     // Relasi ke Pelanggan
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
     }
 
     // Relasi ke Produk melalui tabel pivot
     public function produk()
     {
         return $this->belongsToMany(Produk::class, 'pesanan_produk', 'pesanan_id', 'produk_id')
-                    ->withPivot('jumlah', 'harga_saat_pesan');
+            ->withPivot('jumlah', 'harga_saat_pesan');
+    }
+
+    public function detailPesanans()
+    {
+        return $this->hasMany(DetailPesanan::class, 'pesanans_id');
     }
 }

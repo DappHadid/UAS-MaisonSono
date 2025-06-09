@@ -16,7 +16,7 @@
             <thead class="bg-gray-100">
                 <tr>
                     <th class="py-3 px-6 text-left font-semibold text-gray-700">ID Pesanan</th>
-                    <th class="py-3 px-6 text-left font-semibold text-gray-700">Nama Pelanggan</th>
+                    <th class="py-3 px-6 text-left font-semibold text-gray-700">ID Pelanggan</th>
                     <th class="py-3 px-6 text-left font-semibold text-gray-700">Total Harga</th>
                     <th class="py-3 px-6 text-left font-semibold text-gray-700">Status</th>
                     <th class="py-3 px-6 text-left font-semibold text-gray-700">Tanggal Pesanan</th>
@@ -27,7 +27,7 @@
                 @forelse($pesanans as $pesanan)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="py-4 px-6">{{ $pesanan->id }}</td>
-                    <td class="py-4 px-6">{{ $pesanan->pelanggan->nama ?? 'N/A' }}</td>
+                    <td class="py-4 px-6">{{ $pesanan->pelanggans_id ?? 'N/A' }}</td>
                     <td class="py-4 px-6">Rp {{ number_format($pesanan->total_harga_produk, 0, ',', '.') }}</td>
                     <td class="py-4 px-6 capitalize">
                         <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold
@@ -40,7 +40,7 @@
                             {{ $pesanan->status }}
                         </span>
                     </td>
-                    <td class="py-4 px-6">{{ $pesanan->created_at->format('d M Y H:i') }}</td>
+                    <td class="py-4 px-6">{{ optional($pesanan->tanggal_pesanan)->format('d M Y') }}</td>
                     <td class="py-4 px-6 text-center">
                         <a href="{{ route('admin.manage-orders.show', $pesanan->id) }}" 
                             class="text-indigo-600 hover:text-indigo-900 font-semibold">Detail</a>

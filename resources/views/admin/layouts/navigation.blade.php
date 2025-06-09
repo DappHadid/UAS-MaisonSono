@@ -1,23 +1,23 @@
-    <nav x-data="{ open: false }" class="bg-white border-r border-gray-200 h-screen fixed top-0 left-0 w-64 flex flex-col shadow-lg z-50">
+    <nav x-data="{ open: false }" class="bg-[#3f4f44] border-r border-gray-200 h-screen fixed top-0 left-0 w-64 flex flex-col shadow-lg z-50">
         <!-- Logo / Brand -->
-        <div class="flex items-center justify-center h-16 border-b border-gray-200 px-6">
+        <div class="flex items-center justify-center h-16 border-b border-[#dcd7c9] px-6">
             <a href="{{ route('admin.manage-products.index') }}" class="flex items-center space-x-3">
-                <span class="text-2xl font-extrabold text-indigo-700 tracking-wide">Admin Dashboard</span>
+                <span class="text-2xl font-bold text-[#dcd7c9] tracking-wide">MAISON SONO ADMIN</span>
             </a>
         </div>
 
         <!-- Navigation Links -->
         <div class="flex-1 overflow-y-auto py-6 px-4 space-y-2 scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100">
-            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-indigo-100 transition-colors duration-200">
-                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-[#3f4f44] transition-colors duration-200">
+                <svg class="w-5 h-5 text-[#dcd7c9]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                     <path d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6" />
                 </svg>
                 <span>{{ __('Dashboard') }}</span>
             </x-nav-link>
 
             @can('manage_products')
-                <x-nav-link :href="route('admin.manage-products.index')" :active="request()->routeIs('admin.manage-products.*')" class="flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-indigo-100 transition-colors duration-200">
-                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <x-nav-link :href="route('admin.manage-products.index')" :active="request()->routeIs('admin.manage-products.*')" class="flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-[#3f4f44] transition-colors duration-200">
+                    <svg class="w-5 h-5 text-[#dcd7c9]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6" />
                         <path d="M16 17a4 4 0 1 1-8 0" />
                     </svg>
@@ -26,8 +26,8 @@
             @endcan
 
             @can('manage_orders')
-                <x-nav-link :href="route('admin.manage-orders.index')" :active="request()->routeIs('admin.manage-orders.*')" class="flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-indigo-100 transition-colors duration-200">
-                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <x-nav-link :href="route('admin.manage-orders.index')" :active="request()->routeIs('admin.manage-orders.*')" class="flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-[#3f4f44] transition-colors duration-200">
+                    <svg class="w-5 h-5 text-[#dcd7c9]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                         <path d="M3 10h18M3 6h18M3 14h18M3 18h18" />
                     </svg>
                     <span>{{ __('Manage Orders') }}</span>
@@ -36,11 +36,11 @@
         </div>
 
         <!-- User Info & Logout -->
-        <div class="border-t border-gray-200 p-4 flex items-center space-x-4 bg-indigo-50">
+        <div class="border-t border-[#3f4f44] p-4 flex items-center space-x-4 bg-[#3f4f44]">
             <img src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}" alt="User Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-indigo-600" />
             <div class="flex-1 min-w-0">
-                <p class="text-indigo-900 font-semibold truncate">{{ Auth::user()->name }}</p>
-                <p class="text-indigo-700 text-sm truncate">{{ Auth::user()->email }}</p>
+                <p class="text-white font-semibold truncate">{{ Auth::user()->name }}</p>
+                <p class="text-[#dcd7c9] text-sm truncate">{{ Auth::user()->email }}</p>
             </div>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
