@@ -7,6 +7,7 @@
 <body>
     @section('content')
         <x-navbar />
+
         <header>
             <div id="carouselHeader" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" data-bs-wrap="true">
                 <div class="carousel-indicators">
@@ -51,6 +52,7 @@
                 Maisonsono Parfume &nbsp;&nbsp;•&nbsp;&nbsp; Wewangian elegan untuk setiap hari &nbsp;&nbsp;•&nbsp;&nbsp;
                 Lembut, tahan lama, dan berkelas &nbsp;&nbsp;•&nbsp;&nbsp; Temukan wangimu di sini!
             </marquee>
+
         </div>
 
 

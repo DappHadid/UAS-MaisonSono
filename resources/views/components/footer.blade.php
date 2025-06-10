@@ -20,23 +20,22 @@
                 <div class="me-5 mb-4">
                     <h5 class="fw-bold border-bottom border-light pb-1">Explore</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white text-decoration-none">Discover</a></li>
+                        <li><a href="{{ route('discover') }}" class="text-white text-decoration-none">Discover</a></li>
                     </ul>
                 </div>
 
                 <div class="me-5 mb-4">
                     <h5 class="fw-bold border-bottom border-light pb-1">Shop</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white text-decoration-none">Shopee</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Tokopedia</a></li>
+                        <li><a href="https://shopee.co.id/maisonsono" class="text-white text-decoration-none">Shopee</a></li>
+                        <li><a href="https://www.tokopedia.com/maisonsono" class="text-white text-decoration-none">Tokopedia</a></li>
                     </ul>
                 </div>
 
                 <div class="mb-4">
                     <h5 class="fw-bold border-bottom border-light pb-1">Company</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-white text-decoration-none">About</a></li>
-                        <li><a href="{{ route('career') }}" class="text-white text-decoration-none" >Career</a></li>
+                        <li><a href="{{ route('about') }}" class="text-white text-decoration-none">About Us</a></li>
                     </ul>
                 </div>
             </div>
