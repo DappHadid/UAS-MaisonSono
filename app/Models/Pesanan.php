@@ -19,6 +19,8 @@ class Pesanan extends Model
     public $timestamps = false;
 
     protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'tanggal_pesanan' => 'datetime',
     ];
 

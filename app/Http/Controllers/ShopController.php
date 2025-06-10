@@ -12,7 +12,5 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $produk = Produk::all(); // Ambil semua produk dari database
-        return view('shop', compact('produk')); // Kirim ke view shop.blade.php
     }
 }

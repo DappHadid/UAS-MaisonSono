@@ -30,5 +30,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 ->name('manage-orders.updateStatus');
         });
     });
-
-    });
+});
