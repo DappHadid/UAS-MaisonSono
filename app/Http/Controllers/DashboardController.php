@@ -2,63 +2,92 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Pesanan;
+use App\Models\User;
 use App\Models\Produk;
-use App\Models\Pelanggan;
+use App\Models\Pesanan;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Hitung total data
+        // 1. Data Statistik Total
         $totalPesanan = Pesanan::count();
-        $totalPendapatan = Pesanan::where('status', 'selesai')->sum('total_harga_produk');
-        $totalPelanggan = Pelanggan::count();
+        $totalPendapatan = Pesanan::where('status', 'completed')->sum('total_harga_produk');
+        $totalPelanggan = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->count();
 
-        $pesananPerBulan = Pesanan::selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+        // 2. Data untuk Chart Combo Pesanan & Pendapatan Per Bulan
+        $queryBulanan = Pesanan::select(
+                DB::raw('MONTH(created_at) as bulan'),
+                DB::raw('COUNT(*) as jumlah_pesanan'),
+                DB::raw('SUM(total_harga_produk) as total_pendapatan')
+            )
+            ->whereYear('created_at', date('Y'))
             ->groupBy('bulan')
-            ->orderBy('bulan')
-            ->pluck('total')
-            ->toArray();
+            ->orderBy('bulan', 'asc')
+            ->get()->keyBy('bulan'); // `keyBy` untuk memudahkan mapping
 
-        // Data status pesanan
-        $statusPesananData = Pesanan::selectRaw('status, COUNT(*) as total')
-            ->groupBy('status')
-            ->pluck('total')
-            ->toArray();
+        $dataJumlahPesanan = array_fill(1, 12, 0);
+        $dataPendapatanBulanan = array_fill(1, 12, 0);
 
-        // Label status pesanan
-        $statusLabels = Pesanan::selectRaw('status')
-            ->groupBy('status')
-            ->pluck('status')
-            ->toArray();
+        foreach ($queryBulanan as $bulan => $data) {
+            $dataJumlahPesanan[$bulan] = $data->jumlah_pesanan;
+            $dataPendapatanBulanan[$bulan] = $data->total_pendapatan;
+        }
 
-        // Tren penjualan harian 7 hari terakhir
-        $trenPenjualanHarian = Pesanan::selectRaw('DATE(created_at) as tanggal, COUNT(*) as total')
-            ->where('created_at', '>=', Carbon::now()->subDays(7))
+        // 3. Data Status Pesanan (Pie Chart)
+        $statusPesananQuery = Pesanan::groupBy('status')
+            ->select('status', DB::raw('count(*) as total'))
+            ->pluck('total', 'status');
+
+        // 4. Data untuk Mixed Chart Tren 7 Hari Terakhir
+        $tanggalLabels = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $tanggalLabels[] = Carbon::now()->subDays($i)->format('d M');
+        }
+        
+        $trenQuery = Pesanan::where('created_at', '>=', Carbon::now()->subDays(7))
             ->groupBy('tanggal')
-            ->orderBy('tanggal')
-            ->pluck('total')
-            ->toArray();
+            ->orderBy('tanggal', 'asc')
+            ->get([
+                DB::raw('DATE(created_at) as tanggal'),
+                DB::raw('SUM(total_harga_produk) as total_penjualan'),
+                DB::raw('COUNT(id) as jumlah_pesanan')
+            ])->keyBy('tanggal');
 
-        // Label tanggal tren penjualan harian, format tanggal ke 'd M' (contoh: 30 May)
-        $tanggalLabels = Pesanan::selectRaw('DATE(created_at) as tanggal')
-            ->where('created_at', '>=', Carbon::now()->subDays(7))
-            ->groupBy('tanggal')
-            ->orderBy('tanggal')
-            ->pluck('tanggal')
-            ->map(function($date) {
-                return Carbon::parse($date)->format('d M');
-            })
-            ->toArray();
+        $trenPenjualanHarian = array_fill_keys($tanggalLabels, 0);
+        $trenJumlahPesananHarian = array_fill_keys($tanggalLabels, 0);
 
-        // Kirim data ke view dengan path sesuai lokasi file blade Anda
-        return view('admin.manage-orders.dashboard', compact(
-            'totalPesanan', 'totalPendapatan', 'totalPelanggan',
-            'pesananPerBulan', 'statusPesananData', 'statusLabels',
-            'trenPenjualanHarian', 'tanggalLabels'
-        ));
+        foreach ($trenQuery as $tanggal => $data) {
+            $formattedDate = Carbon::parse($tanggal)->format('d M');
+            if (isset($trenPenjualanHarian[$formattedDate])) {
+                $trenPenjualanHarian[$formattedDate] = $data->total_penjualan;
+                $trenJumlahPesananHarian[$formattedDate] = $data->jumlah_pesanan;
+            }
+        }
+        
+        // 5. Data untuk Tabel Pengguna Terbaru
+        $latestUsers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->latest()->take(10)->get();
+
+        // Kirim semua data ke view
+        return view('admin.manage-orders.dashboard', [
+            'totalPesanan' => $totalPesanan,
+            'totalPendapatan' => $totalPendapatan,
+            'totalPelanggan' => $totalPelanggan,
+            'dataJumlahPesanan' => array_values($dataJumlahPesanan),
+            'dataPendapatanBulanan' => array_values($dataPendapatanBulanan),
+            'statusLabels' => $statusPesananQuery->keys(),
+            'statusPesananData' => $statusPesananQuery->values(),
+            'trenPenjualanHarian' => array_values($trenPenjualanHarian),
+            'trenJumlahPesananHarian' => array_values($trenJumlahPesananHarian),
+            'tanggalLabels' => array_keys($trenPenjualanHarian),
+            'latestUsers' => $latestUsers,
+        ]);
     }
 }
