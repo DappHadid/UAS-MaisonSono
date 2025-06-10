@@ -5,128 +5,126 @@ namespace App\Http\Controllers;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB; // Pastikan ini ada
 
 class ProdukController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar semua produk.
      */
-
     public function index()
     {
-        // Ambil semua produk, bisa ditambah pagination jika perlu
+        // Sesuai permintaan Anda, tidak menggunakan paginate.
         $products = Produk::orderBy('created_at', 'desc')->get();
-
-        // $manageProducts = Produk::orderBy('created_at', 'desc')->get();
-
-        // Kirim data ke view index
         return view('admin.manage-products.index', compact('products'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form untuk membuat produk baru.
      */
     public function create()
     {
         return view('admin.manage-products.create');
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan produk baru ke database.
      */
-public function store(Request $request)
-{
-    // Validasi input
-    $validated = $request->validate([
-        'nama_produk' => 'required|string|max:255',
-        'deskripsi' => 'nullable|string',
-        'size' => 'nullable|string|max:50',
-        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
-        'harga' => 'required|numeric|min:0',
-        'stok' => 'required|integer|min:0',
-    ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'size' => 'nullable|string|max:50',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'diskon' => 'nullable|numeric|min:0|max:100',
+        ]);
 
-        // Jika ada file gambar, simpan ke storage dan simpan path ke $validated['gambar']
-    if ($request->hasFile('gambar')) {
-        $path = $request->file('gambar')->store('produk-images', 'public');
-        $validated['gambar'] = $path;
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('produk-images', 'public');
+            $validated['gambar'] = $path;
+        }
+
+        Produk::create($validated);
+
+        return redirect()->route('admin.manage-products.index')->with('success', 'Product created successfully!');
     }
 
-    // Simpan data produk baru
-    Produk::create($validated);
-
-    // Redirect ke halaman index dengan pesan sukses
-    return redirect()->route('admin.manage-products.index')->with('success', 'Product created successfully!');
-}
-
-
     /**
-     * Display the specified resource.
+     * Menampilkan detail satu produk.
      */
-    public function show($id)
+    public function show($id) 
     {
-        // Tampilkan detail produk berdasarkan ID
         $product = Produk::findOrFail($id);
-
-        // Kirim data ke view show
         return view('admin.manage-products.show', compact('product'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit produk.
      */
-    public function edit($id)
+    public function edit($id) 
     {
-        // Tampilkan form edit dengan data produk
         $product = Produk::findOrFail($id);
         return view('admin.manage-products.edit', compact('product'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mengupdate produk yang ada di database.
      */
-public function update(Request $request, Produk $produk)
-{
-    // Validasi input
-    $validated = $request->validate([
-        'nama_produk' => 'required|string|max:255',
-        'deskripsi' => 'nullable|string',
-        'size' => 'nullable|string|max:50',
-        'harga' => 'required|numeric|min:0',
-        'diskon' => 'nullable|numeric|min:0|max:100',
-        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
-        'stok' => 'required|integer|min:0',
-    ]);
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'size' => 'nullable|string|max:50',
+            'harga' => 'required|numeric|min:0',
+            'diskon' => 'nullable|numeric|min:0|max:100',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
+            'stok' => 'required|integer|min:0',
+        ]);
+        
+            DB::beginTransaction();
+            try {
+                $product = Produk::findOrFail($id);
+                if ($request->hasFile('gambar')) {
+                    if ($product->gambar) {
+                        Storage::disk('public')->delete($product->gambar);
+                    }
+                    $path = $request->file('gambar')->store('produk-images', 'public');
+                    $validated['gambar'] = $path;
+                }
 
-    if ($request->hasFile('gambar')) {
-        if ($produk->gambar) {
-            Storage::disk('public')->delete($produk->gambar);
+                $product->update($validated);
+
+                DB::commit();
+
+                return redirect()->route('admin.manage-products.index')->with('success', 'Produk berhasil diperbarui.');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->route('admin.manage-products.index')->with('error', 'Terjadi error saat update: ' . $e->getMessage());
+            }
         }
-        $path = $request->file('gambar')->store('produk-images', 'public');
-        $validated['gambar'] = $path;
-    }
-
-    $produk->update($validated);
-
-    return redirect()->route('admin.manage-products.index')->with('success', 'Produk berhasil diperbarui.');
-}
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus produk dari database.
      */
-    public function destroy(Produk $product)
+    public function destroy($id) 
     {
-        // Hapus gambar produk jika ada
-        if ($product->gambar) {
-            Storage::disk('public')->delete($product->gambar);
+        DB::beginTransaction();
+        try {
+            $product = Produk::findOrFail($id); 
+            if ($product->gambar) {
+                Storage::disk('public')->delete($product->gambar);
+            }
+            $product->delete();
+            DB::commit();
+            return redirect()->route('admin.manage-products.index')->with('success', 'Produk berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin.manage-products.index')->with('error', 'Terjadi error saat menghapus: ' . $e->getMessage());
         }
-
-        // Hapus produk
-        $product->delete();
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('admin.manage-products.index')->with('success', 'Produk berhasil dihapus.');
     }
 }
-
