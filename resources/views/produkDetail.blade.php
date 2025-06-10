@@ -11,8 +11,10 @@
                 </div>
                 <div class="d-flex gap-2">
                     <img src="{{ asset('storage/' . $produk->gambar) }}" width="130" class="img-thumbnail" alt="thumb">
-                    <img src="{{ asset('storage/' . $produk->gambar) }}" width="130" class="img-thumbnail" alt="thumb">
-                    <img src="{{ asset('storage/' . $produk->gambar) }}" width="130" class="img-thumbnail" alt="thumb">
+                    <img src="{{ asset('storage/' . $produk->gambar) }}" width="130" class="img-thumbnail"
+                        alt="thumb">
+                    <img src="{{ asset('storage/' . $produk->gambar) }}" width="130" class="img-thumbnail"
+                        alt="thumb">
                 </div>
             </div>
 
@@ -22,15 +24,27 @@
 
                 <h4 class="fw-bold mb-4 text-success">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</h4>
 
-                <div class="d-flex align-items-center mb-3">
-                    <button class="btn btn-outline-secondary me-2">-</button>
-                    <span>1</span>
-                    <button class="btn btn-outline-secondary ms-2">+</button>
-                </div>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 30px;">
+                    <div
+                        style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 5px; width: fit-content;">
+                        <button type="button"
+                            onclick="if(this.nextElementSibling.value > 1) this.nextElementSibling.value--"
+                            style="background: #f5f5f5; border: none; padding: 8px 12px; cursor: pointer;">-</button>
+                        <input id="quantity" type="number" name="quantity" value="1" min="1" readonly
+                            style="border: none; text-align: center; width: 50px; padding: 8px;">
+                        <button type="button" onclick="this.previousElementSibling.value++"
+                            style="background: #f5f5f5; border: none; padding: 8px 15px; cursor: pointer;">+</button>
+                    </div>
+                    {{-- <a href="{{ url('/add_to_cart?id=' . $produk->id . '&name=' . urlencode($produk->nama) . '&price=' . $produk->harga) }}"
+                        class="btn text-white" style="background-color: #1f2f23;">
+                        <i class="bi bi-cart-plus" style="padding: 20px;"></i>
+                    </a> --}}
+                    <a href="javascript:void(0)" onclick="addToKeranjang()" class="btn text-white"
+                        style="background-color: #1f2f23;">
+                        <i class="bi bi-cart-plus" style="padding: 20px;"></i>
+                    </a>
 
-                <a href="{{ url('/add_to_cart?id=' . $produk->id . '&name=' . urlencode($produk->nama) . '&price=' . $produk->harga) }}" class="btn btn-dark d-flex align-items-center gap-2 mb-4">
-                    <i class="bi bi-cart-plus"></i> Tambah ke Keranjang
-                </a>
+                </div>
 
                 <ul class="nav nav-tabs" id="productTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -54,4 +68,13 @@
         </div>
     </div>
     <x-footer />
+    <script>
+        function addToKeranjang() {
+    const qty = document.getElementById('quantity').value;
+    console.log("Qty:", qty);
+    const url = `{{ route('keranjang.add') }}?id={{ $produk->id }}&name={{ urlencode($produk->nama) }}&price={{ $produk->harga }}&quantity=${qty}`;
+    window.location.href = url;
+}
+
+    </script>
 @endsection
