@@ -20,7 +20,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="d-block w-100"
-                            style="background: url('{{ asset('images/carousel1.png') }}') no-repeat center center / cover; height: 300px;">
+                            style="background: url('{{ asset('images/carousel1.png') }}') no-repeat center center / cover; height: 400px;">
                             <div class="container d-flex flex-column justify-content-center align-items-center text-white"
                                 style="height: 100%;">
                                 <!-- Optional content -->
@@ -29,7 +29,7 @@
                     </div>
                     <div class="carousel-item">
                         <div class="d-block w-100"
-                            style="background: url('{{ asset('images/carousel1.png') }}') no-repeat center center / cover; height: 300px;">
+                            style="background: url('{{ asset('images/carousel1.png') }}') no-repeat center center / cover; height: 400px;">
                             <div class="container d-flex flex-column justify-content-center align-items-center text-white"
                                 style="height: 100%;">
                                 <!-- Optional content -->
@@ -69,7 +69,7 @@
                                 <p class="card-text">{{ $item->deskripsi }}</p>
                                 <a href="{{ url('/produkDetail?id=' . $item->id) }}" class="btn"
                                     style="border: 1px solid #1f2f23; color: #1f2f23; margin-right: 10px;">Detail</a>
-                                <a href="{{ url('/add_to_cart?id=' . $item->id . '&name=' . urlencode($item->nama) . '&price=' . $item->harga) }}"
+                                <a href="{{ url('/add_to_keranjang?id=' . $item->id . '&name=' . urlencode($item->nama) . '&price=' . $item->harga) }}"
                                     class="btn text-white" style="background-color: #1f2f23;">
                                     <i class="bi bi-cart-plus" style="padding: 20px;"></i>
                                 </a>
