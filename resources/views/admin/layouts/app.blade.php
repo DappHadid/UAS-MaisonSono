@@ -25,12 +25,15 @@
 
         @stack('head')
     </head>
+
+
     <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         
         {{-- State untuk collapsible sidebar & dark mode ada di sini --}}
         <div x-data="{ sidebarOpen: true }">
             
             {{-- File navigasi akan membaca state 'sidebarOpen' --}}
+
             @include('admin.layouts.navigation')
 
             {{--  Margin kiri konten dikontrol oleh state 'sidebarOpen' --}}
