@@ -1,74 +1,81 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Admin Dashboard')
-
 @section('content')
-<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gray-50">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
-        <button onclick="printDashboard()" class="inline-flex items-center px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded-lg shadow hover:bg-red-700 transition">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+    {{-- Header Halaman --}}
+    <div class="flex flex-wrap sm:flex-nowrap justify-between items-center mb-6 gap-4">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
+        <button onclick="printDashboard()" class="inline-flex items-center px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded-lg shadow-md hover:bg-red-700 transition-transform hover:scale-105">
+            <i class="fas fa-file-pdf mr-2"></i>
             Export PDF
         </button>
     </div>
 
     <div id="analytics">
-        {{-- Kartu Statistik --}}
+        {{-- Kartu Statistik dengan Dark Mode --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-blue-500 flex items-center space-x-4 transition hover:shadow-xl hover:scale-105">
-                <div class="bg-blue-100 p-3 rounded-full"><svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z"></path></svg></div>
-                <div><h2 class="text-lg font-semibold text-gray-600">Total Pesanan</h2><p class="text-3xl font-bold text-gray-800">{{ $totalPesanan }}</p></div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 flex items-center space-x-4 transition-all duration-300 hover:shadow-xl hover:scale-105">
+                <div class="bg-blue-100 dark:bg-gray-700 p-4 rounded-full"><i class="fas fa-shopping-cart fa-2x text-blue-600 dark:text-blue-400"></i></div>
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-600 dark:text-gray-400">Total Orders</h2>
+                    <p class="text-3xl font-bold text-gray-800 dark:text-white">{{ $totalPesanan }}</p>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-green-500 flex items-center space-x-4 transition hover:shadow-xl hover:scale-105">
-                <div class="bg-green-100 p-3 rounded-full"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg></div>
-                <div><h2 class="text-lg font-semibold text-gray-600">Total Pendapatan</h2><p class="text-3xl font-bold text-gray-800">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</p></div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 flex items-center space-x-4 transition-all duration-300 hover:shadow-xl hover:scale-105">
+                <div class="bg-green-100 dark:bg-gray-700 p-4 rounded-full"><i class="fas fa-dollar-sign fa-2x text-green-600 dark:text-green-400"></i></div>
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-600 dark:text-gray-400">Total Revenue</h2>
+                    <p class="text-3xl font-bold text-gray-800 dark:text-white">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</p>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-500 flex items-center space-x-4 transition hover:shadow-xl hover:scale-105">
-                <div class="bg-indigo-100 p-3 rounded-full"><svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
-                <div><h2 class="text-lg font-semibold text-gray-600">Total Pelanggan</h2><p class="text-3xl font-bold text-gray-800">{{ $totalPelanggan }}</p></div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-indigo-500 flex items-center space-x-4 transition-all duration-300 hover:shadow-xl hover:scale-105">
+                <div class="bg-indigo-100 dark:bg-gray-700 p-4 rounded-full"><i class="fas fa-users fa-2x text-indigo-600 dark:text-indigo-400"></i></div>
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-600 dark:text-gray-400">Total Customers</h2>
+                    <p class="text-3xl font-bold text-gray-800 dark:text-white">{{ $totalPelanggan }}</p>
+                </div>
             </div>
         </div>
 
-        {{-- Area Chart --}}
+        {{-- Area Chart dengan Dark Mode --}}
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
-            <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Tren Penjualan & Jumlah Pesanan (7 Hari Terakhir)</h2>
-                <div id="mixedChartHarian"></div>
+            <div class="lg:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Sales & Orders Trend (Last 7 Days)</h2>
+                <div id="mixedChartHarian" ></div>
             </div>
-            <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Komposisi Status Pesanan</h2>
+            <div class="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Order Status Composition</h2>
                 <div id="chartStatusPesanan"></div>
             </div>
         </div>
         
-        <div class="bg-white p-6 rounded-xl shadow-lg mt-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Analisis Pendapatan & Jumlah Pesanan (Tahun Ini)</h2>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mt-6">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Monthly Revenue & Orders Analysis (This Year)</h2>
             <div id="comboChartBulanan"></div>
         </div>
 
-        {{-- Tabel Pengguna Terbaru --}}
-        <div class="bg-white p-6 rounded-xl shadow-lg mt-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Pelanggan Terbaru</h2>
+        {{-- Tabel Pengguna Terbaru dengan Dark Mode --}}
+        <div class="bg-white dark:bg-gray-800 shadow-xl rounded-xl mt-6 overflow-hidden">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Newest Customers</h2>
+            </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full text-base">
+                    <thead class="bg-gray-50 dark:bg-gray-700/50 text-sm text-gray-700 dark:text-gray-300 uppercase">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Bergabung</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold">Name</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold">Email</th>
+                            <th scope="col" class="px-6 py-4 text-left font-bold">Joined Date</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                         @forelse($latestUsers as $user)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->created_at->format('d F Y') }}</td>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">{{ $user->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">{{ $user->email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">{{ $user->created_at->format('d F Y') }}</td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="3" class="px-6 py-4 text-center text-sm text-gray-500">Tidak ada data pelanggan.</td>
-                            </tr>
+                            <tr><td colspan="3" class="px-6 py-10 text-center text-gray-500 dark:text-gray-400 italic">No customer data found.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -84,13 +91,21 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // 1. Chart Combo: Pendapatan (Line) & Jumlah Pesanan (Column) per Bulan
+            const chartThemeOptions = {
+            chart: {
+                background: '#FFFFFF' // Selalu gunakan background putih untuk chart
+            },
+            theme: {
+                mode: 'light' // Selalu gunakan tema terang untuk chart
+            }
+        };
         var optionsComboBulanan = {
-            chart: { type: 'line', height: 350, toolbar: { show: false } },
+            chart: { type: 'line', height: 350, toolbar: { show: false }, ...chartThemeOptions.chart },
             series: [
                 { name: 'Total Pendapatan', type: 'column', data: @json($dataPendapatanBulanan) },
                 { name: 'Jumlah Pesanan', type: 'line', data: @json($dataJumlahPesanan) }
             ],
+            theme: chartThemeOptions.theme, // Selalu gunakan tema terang
             stroke: { width: [0, 4] }, // Lebar garis (0 untuk bar, 4 untuk line)
             xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'] },
             yaxis: [
@@ -111,7 +126,8 @@
 
         // 2. Chart Status Pesanan (Donut Chart)
         var optionsStatusPesanan = {
-            chart: { type: 'donut', height: 350 },
+            chart: { type: 'donut', height: 350,chartTheme: chartThemeOptions.chart },
+            theme: chartThemeOptions.theme,
             series: @json($statusPesananData),
             labels: @json(array_map('ucfirst', $statusLabels->toArray())),
             legend: { position: 'bottom' },
@@ -122,7 +138,8 @@
 
         // 3. Mixed Chart: Penjualan (Area) & Jumlah Pesanan (Line) Harian
         var optionsMixedHarian = {
-            chart: { type: 'area', height: 350, toolbar: { show: false } },
+            chart: { type: 'area', height: 350, toolbar: { show: false } ,chartTheme: chartThemeOptions.chart },
+            theme: chartThemeOptions.theme,
             series: [
                 { name: 'Total Penjualan', type: 'area', data: @json($trenPenjualanHarian) },
                 { name: 'Jumlah Pesanan', type: 'line', data: @json($trenJumlahPesananHarian) }

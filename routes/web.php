@@ -11,13 +11,11 @@ use App\Http\Controllers\DashboardController;
 // ===================================================
 Route::prefix('admin')->name('admin.')->group(function () {
 
-    // Rute untuk admin yang belum login (Tamu)
     Route::middleware('guest:admin')->group(function () {
         Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
         Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
     });
 
-    // Rute untuk admin yang sudah login
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::middleware('can:manage_products')->group(function () {
