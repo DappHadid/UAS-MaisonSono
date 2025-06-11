@@ -245,7 +245,7 @@
         var mixedChartHarian = new ApexCharts(document.querySelector("#mixedChartHarian"), optionsMixedHarian);
         mixedChartHarian.render();
     });
-=======
+    
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Chart Combo: Pendapatan (Line) & Jumlah Pesanan (Column) per Bulan
             var optionsComboBulanan = {
@@ -423,7 +423,6 @@
         produkTerlarisChart.render();
     </script>
 
->>>>>>> b699b8c78ea6b088441b84882872abdffa47d5a9
     </script>
 
     <script>
