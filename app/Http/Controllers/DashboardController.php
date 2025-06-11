@@ -20,20 +20,17 @@ class DashboardController extends Controller
             $query->where('name', 'user');
         })->count();
 
-        // 2. Data untuk Chart Combo Pesanan & Pendapatan Per Bulan
+        // 2. Data Chart Combo Pesanan & Pendapatan Per Bulan
         $queryBulanan = Pesanan::select(
-            DB::raw('MONTH(created_at) as bulan'),
-            DB::raw('COUNT(*) as jumlah_pesanan'),
-            DB::raw('SUM(total_harga_produk) as total_pendapatan')
-        )
+                DB::raw('MONTH(created_at) as bulan'),
+                DB::raw('COUNT(*) as jumlah_pesanan'),
+                DB::raw('SUM(total_harga_produk) as total_pendapatan')
+            )
             ->whereYear('created_at', date('Y'))
-            ->groupBy('bulan')
-            ->orderBy('bulan', 'asc')
-            ->get()->keyBy('bulan'); // `keyBy` untuk memudahkan mapping
+            ->groupBy('bulan')->orderBy('bulan', 'asc')->get()->keyBy('bulan');
 
         $dataJumlahPesanan = array_fill(1, 12, 0);
         $dataPendapatanBulanan = array_fill(1, 12, 0);
-
         foreach ($queryBulanan as $bulan => $data) {
             $dataJumlahPesanan[$bulan] = $data->jumlah_pesanan;
             $dataPendapatanBulanan[$bulan] = $data->total_pendapatan;
@@ -49,65 +46,53 @@ class DashboardController extends Controller
         for ($i = 6; $i >= 0; $i--) {
             $tanggalLabels[] = Carbon::now()->subDays($i)->format('d M');
         }
+        
+        $trenQuery = Pesanan::where('created_at', '>=', Carbon::now()->subDays(7))
+            ->groupBy('tanggal')->orderBy('tanggal', 'asc')
+            ->get([
+                DB::raw('DATE(created_at) as tanggal'),
+                DB::raw('SUM(total_harga_produk) as total_penjualan'),
+                DB::raw('COUNT(id) as jumlah_pesanan')
+            ])->keyBy('tanggal');
 
-        $trenQuery = DB::table('detail_pesanans')
-            ->join('pesanans', 'detail_pesanans.pesanans_id', '=', 'pesanans.id')
-            ->where('pesanans.created_at', '>=', Carbon::now()->subDays(7))
-            ->select(
-                DB::raw('DATE(pesanans.created_at) as tanggal'),
-                DB::raw('SUM(detail_pesanans.kuantitas_produk) as total_produk'),
-                DB::raw('COUNT(DISTINCT detail_pesanans.pesanans_id) as jumlah_pesanan')
-            )
-            ->groupBy('tanggal')
-            ->orderBy('tanggal', 'asc')
-            ->get()
-            ->keyBy('tanggal');
-
-
-        $trenPenjualanProdukHarian = array_fill_keys($tanggalLabels, 0);
+        $trenPenjualanHarian = array_fill_keys($tanggalLabels, 0);
         $trenJumlahPesananHarian = array_fill_keys($tanggalLabels, 0);
-
         foreach ($trenQuery as $tanggal => $data) {
             $formattedDate = Carbon::parse($tanggal)->format('d M');
-            if (isset($trenPenjualanProdukHarian[$formattedDate])) {
-                $trenPenjualanProdukHarian[$formattedDate] = $data->total_produk;
+            if (isset($trenPenjualanHarian[$formattedDate])) {
+                $trenPenjualanHarian[$formattedDate] = $data->total_penjualan;
                 $trenJumlahPesananHarian[$formattedDate] = $data->jumlah_pesanan;
             }
         }
-
-        // 5. Data untuk produk terlaris
-        $pesanans = DB::table('detail_pesanans')
-            ->select('produks_id', DB::raw('SUM(kuantitas_produk) as total_terjual'))
-            ->groupBy('produks_id')
+        
+        // 5. Data untuk produk terlaris (dioptimalkan)
+        $produkTerlaris = DB::table('detail_pesanans')
+            ->join('produks', 'detail_pesanans.produk_id', '=', 'produks.id') // Join dengan tabel produks
+            ->select('produks.nama_produk', DB::raw('SUM(detail_pesanans.kuantitas_produk) as total_terjual'))
+            ->groupBy('produks.id', 'produks.nama_produk')
             ->orderByDesc('total_terjual')
             ->take(7)
             ->get();
 
-        $produkTerlaris = $pesanans->map(function ($item) {
-            $produk = Produk::find($item->produks_id);
-            return (object) [
-                'nama_produk' => $produk ? $produk->nama_produk : 'Produk Tidak Ditemukan',
-                'size' => $produk ? $produk->size : '-',
-                'total_terjual' => $item->total_terjual,
-            ];
-        });
+        // 6. Data untuk pengguna terbaru
+        $latestUsers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->latest()->take(5)->get();
 
         // Kirim semua data ke view
         return view('admin.manage-orders.dashboard', [
-            'totalPesanan' => $totalPesanan,
-            'totalPendapatan' => $totalPendapatan,
-            'totalPelanggan' => $totalPelanggan,
-            'dataJumlahPesanan' => array_values($dataJumlahPesanan),
+            'totalPesanan'          => $totalPesanan,
+            'totalPendapatan'       => $totalPendapatan,
+            'totalPelanggan'        => $totalPelanggan,
+            'dataJumlahPesanan'     => array_values($dataJumlahPesanan),
             'dataPendapatanBulanan' => array_values($dataPendapatanBulanan),
-            'statusLabels' => $statusPesananQuery->keys(),
-            'statusPesananData' => $statusPesananQuery->values(),
-            'trenPenjualanProdukHarian' => array_values($trenPenjualanProdukHarian),
+            'statusLabels'          => $statusPesananQuery->keys(),
+            'statusPesananData'     => $statusPesananQuery->values(),
+            'trenPenjualanHarian'   => array_values($trenPenjualanHarian),
             'trenJumlahPesananHarian' => array_values($trenJumlahPesananHarian),
-            'tanggalLabels' => array_keys($trenPenjualanProdukHarian),
-            'produkTerlaris' => $produkTerlaris,
-            'namaProdukTerlaris' => $produkTerlaris->pluck('nama_produk'),
-            'jumlahProdukTerjual' => $produkTerlaris->pluck('total_terjual'),
-
+            'tanggalLabels'         => array_keys($trenPenjualanHarian),
+            'produkTerlaris'        => $produkTerlaris,
+            'latestUsers'           => $latestUsers,
         ]);
     }
 }

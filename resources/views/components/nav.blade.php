@@ -1,16 +1,5 @@
-<style>
-
-    #navbar-logo-small {
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-
-    #navbar-logo-small.show {
-        opacity: 1;
-    }
-</style>
-
-<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top py-3 transition" style="background-color: #1f2f23; z-index: 1000;">
+<nav id="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top py-3 transition"
+    style="background-color: #1f2f23; z-index: 1000;">
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
         <!-- Left Side -->
@@ -21,9 +10,10 @@
         </div>
 
         <!-- Logo -->
-        <a class="navbar-brand position-absolute top-50 start-50 translate-middle text-center" href="{{ route('landing') }}">
-            <img id="navbar-logo-small" src="{{ asset('images/Sono_white.png') }}" alt="Logo Kecil"
-                style="height: 40px;">
+        <a id="navbar-logo-link" class="navbar-brand position-absolute top-50 start-50 translate-middle text-center"
+            href="{{ route('landing') }}" style="font-weight: bold;">
+            <img id="navbar-main-logo" src="{{ asset('images/Sono_white.png') }}" style="width: 100px; height: auto;"
+                alt="Logo Maison Sono">
         </a>
 
         <!-- Right Side -->
