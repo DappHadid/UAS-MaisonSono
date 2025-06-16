@@ -79,7 +79,7 @@
                 </li>
 
                 <li class="nav-item me-3">
-                    <a href="{{ route('keranjang') }}"class="nav-link position-relative text-white">
+                    <a href="{{ route('keranjang.index') }}"class="nav-link position-relative text-white">
                         <i class="bi bi-bag"></i>
                     </a>
                 </li>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('user.layouts.app')
 <style>
     #carousel-big-logo {
         transition: transform 0.6s ease, opacity 0.6s ease;

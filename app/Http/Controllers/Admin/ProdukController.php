@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB; // Pastikan ini ada
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class ProdukController extends Controller
 {

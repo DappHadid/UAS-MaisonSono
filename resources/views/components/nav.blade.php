@@ -5,7 +5,7 @@
         <!-- Left Side -->
         <div class="d-flex align-items-center">
             <a class="nav-link text-white me-3" href="{{ route('landing') }}">Home</a>
-            <a class="nav-link text-white me-3" href="{{ route('shop') }}">Shop</a>
+            <a class="nav-link text-white me-3" href="{{ route('shop.index') }}">Shop</a>
             <a class="nav-link text-white" href="{{ route('catalogue') }}">Catalogue</a>
         </div>
 
@@ -69,7 +69,7 @@
                 </li>
 
                 <li class="nav-item me-3">
-                    <a href="{{ route('keranjang') }}"class="nav-link position-relative text-white">
+                    <a href="{{ route('keranjang.index') }}"class="nav-link position-relative text-white">
                         <i class="bi bi-bag"></i>
                     </a>
                 </li>

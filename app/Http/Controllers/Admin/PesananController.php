@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PesananController extends Controller
 {
@@ -11,7 +12,7 @@ class PesananController extends Controller
     public function index()
     {
         $pesanans = Pesanan::with(['pelanggan', 'detailPesanans.produk'])
-                    ->orderBy('created_at', 'desc')
+                    ->orderBy('created_at', 'asc')
                     ->paginate(10);
 
         return view('admin.manage-orders.index', compact('pesanans'));    }
@@ -26,7 +27,6 @@ class PesananController extends Controller
     return view('admin.manage-orders.show', compact('pesanan'));
     }
 
-    // Update status pesanan (misal: pending, diproses, dikirim, selesai)
     public function updateStatus(Request $request, $id)
     {
         $request->validate([

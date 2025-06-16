@@ -1,18 +1,43 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+// == KELOMPOK CONTROLLER UNTUK PENGGUNA BIASA (USER-FACING) ==
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
-use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\PesananController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\ProfileController;
 
-// ===================================================
-// GRUP UNTUK SEMUA RUTE PANEL ADMIN
-// ===================================================
+
+// == KELOMPOK CONTROLLER UNTUK PANEL ADMIN ==
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProdukController as AdminProdukController;
+use App\Http\Controllers\Admin\PesananController as AdminPesananController;
+
+/* RUTE USER */
+Route::get('/', function () { return view('user.landing'); })->name('landing');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/produk/{produk}', [ShopController::class, 'detail'])->name('produk.detail');
+Route::view('/catalogue', 'user.catalogue')->name('catalogue');
+Route::view('/discover', 'discover')->name('discover');
+Route::view('/about', 'about')->name('about');
+Route::view('/career', 'user.career')->name('career');
+require __DIR__.'/auth.php';
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard-user', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::prefix('keranjang')->name('keranjang.')->group(function () {
+        Route::get('/', [KeranjangController::class, 'index'])->name('index');
+        Route::get('/add', [KeranjangController::class, 'addToKeranjang'])->name('add');
+        Route::post('/update', [KeranjangController::class, 'updateQuantity'])->name('update');
+        Route::get('/remove/{id}', [KeranjangController::class, 'removeItem'])->name('remove');
+    });
+});
+
+/* RUTE ADMIN */
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('guest:admin')->group(function () {
@@ -21,56 +46,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-        Route::middleware('can:manage_products')->group(function () {
-            Route::resource('manage-products', ProdukController::class);
-        });
-    Route::middleware('can:manage_orders')->group(function () {
-        Route::resource('manage-orders', PesananController::class);
+        
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::patch('manage-orders/{pesanan}/update-status', [PesananController::class, 'updateStatus'])
-                ->name('manage-orders.updateStatus');
-        });
+        
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+        Route::resource('manage-products', AdminProdukController::class)->middleware('can:manage_products');
+        Route::resource('manage-orders', AdminPesananController::class)->middleware('can:manage_orders');
+        Route::patch('manage-orders/{pesanan}/update-status', [AdminPesananController::class, 'updateStatus'])->name('manage-orders.updateStatus')->middleware('can:manage_orders');
     });
 });
-
-// ===================================================
-// GRUP UNTUK SEMUA RUTE PANEL ADMIN
-// ===================================================
-// 🔹 Landing page
-Route::get('/', function () {
-    return view('landing');
-})->name('landing');
-
-// 🔹 Auth routes (login, register, dll)
-Auth::routes();
-
-// 🔹 Dashboard (Setelah login)
-Route::get('/dashboard', [HomeController::class, 'index'])
-->name('dashboard')
-->middleware('auth');
-
-// 🔹 Shop page
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-Route::get('/produkDetail', [ShopController::class, 'detail'])->name('produk.detail');
-Route::view('/catalogue', 'catalogue')->name('catalogue');
-Route::view('/discover', 'discover')->name('discover');
-// Route::view('/keranjang', 'keranjang')->name('keranjang');
-Route::get('/add_to_keranjang', [KeranjangController::class, 'addToKeranjang'])->name('keranjang.add');
-Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
-Route::post('/keranjang/update', [KeranjangController::class, 'updateQuantity'])->name('keranjang.update');
-Route::get('/keranjang/remove/{id}', [KeranjangController::class, 'removeItem'])->name('keranjang.remove');
-Route::view('/about', 'about')->name('about');
-Route::view('/career', 'career')->name('career');
-
-// 🔹 Product Routes
-Route::prefix('products')->middleware('auth')->group(function () {
-    Route::get('/', [ProdukController::class, 'view'])->name('product.view');
-    Route::post('/', [ProdukController::class, 'create'])->name('product.create');
-});
-
-
-// 🔹 Home jika ingin route /home diarahkan juga
-Route::get('/home', function () {
-    return view('home'); // resources/views/home.blade.php
-})->name('home');
